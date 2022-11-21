@@ -2,10 +2,20 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { JokesController } from './jokes/jokes.controller';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
+import { MySQLConfigService } from './mysql.config.service';
+import { JokesService } from './jokes/jokes.service';
 
 @Module({
-  imports: [],
+  imports: [
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRootAsync({
+        imports: [ConfigModule],
+        useClass: MySQLConfigService,
+    }),
+  ],
   controllers: [AppController, JokesController],
-  providers: [AppService],
+  providers: [AppService, JokesService],
 })
 export class AppModule {}
