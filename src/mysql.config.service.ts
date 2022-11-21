@@ -14,7 +14,9 @@ export class MySQLConfigService implements TypeOrmOptionsFactory {
             port: this.configService.get<number>('DB_PORT'),
             database: this.configService.get<string>('DB_NAME'),
             username: this.configService.get<string>('DB_USER'),
-            password: this.configService.get<string>('DB_PASS')
+            password: this.configService.get<string>('DB_PASS'),
+            autoLoadEntities: true,
+            synchronize: true
         };
     }
 }

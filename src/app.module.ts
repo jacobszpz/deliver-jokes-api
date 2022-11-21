@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { MySQLConfigService } from './mysql.config.service';
 import { JokesService } from './jokes/jokes.service';
+import { JokesModule } from './jokes/jokes.module';
 
 @Module({
   imports: [
@@ -14,8 +15,9 @@ import { JokesService } from './jokes/jokes.service';
         imports: [ConfigModule],
         useClass: MySQLConfigService,
     }),
+    JokesModule,
   ],
-  controllers: [AppController, JokesController],
-  providers: [AppService, JokesService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
