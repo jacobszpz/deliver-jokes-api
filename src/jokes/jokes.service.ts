@@ -11,12 +11,17 @@ export class JokesService {
         private jokesRepository: Repository<Joke>,
     ) {}
 
-    findAll(): Promise<Joke[]> {
-        return this.jokesRepository.find();
+    async randomByType(type: JokeType, count: number) : Promise<Joke[]> {
+        return this.jokesRepository
+            .createQueryBuilder("joke")
+            .select(['joke.setup', 'joke.punchline', 'type.name'])
+            .leftJoin('joke.type', 'type')
+            // Filter by type
+            .where("type.name = :typeName", { typeName: type })
+            // If type is Any, clause will be true for all
+            .orWhere("'Any' = :typeName", { typeName: type })
+            .orderBy("RAND()")
+            .limit(count)
+            .getMany();
     }
-
-    findByType(type: JokeType, count: number) : Joke[] {
-        return [];
-    }
-
 }

@@ -9,7 +9,7 @@ export class JokesController {
     constructor(private jokesService: JokesService) {}
 
     @Get()
-    async helloWorld(@Query() query: GetJokeParams): Promise<Joke[]> {
-        return this.jokesService.findAll();
+    async randomByType(@Query() query: GetJokeParams): Promise<Joke[]> {
+        return this.jokesService.randomByType(query.type, query.count);
     }
 }

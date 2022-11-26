@@ -3,5 +3,6 @@ export enum JokeType {
     General = "general",
     Programming = "programming",
     Dad = "dad",
-    Knock = "knock-knock"
+    Knock = "knock-knock",
+    Food = "food"
 }
