@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { JokeTypeEntity } from '../joke-type/joke-type.entity';
+import { JokeType } from '../joke-type/joke-type';
 
 @Entity()
 export class Joke {
@@ -7,8 +7,8 @@ export class Joke {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => JokeTypeEntity, (type) => type.name)
-    type: JokeTypeEntity;
+    @ManyToOne(() => JokeType, (type) => type.name)
+    type: JokeType;
 
     @Column()
     setup: string;

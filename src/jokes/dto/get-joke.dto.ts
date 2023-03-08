@@ -5,6 +5,5 @@ export class GetJokeParams {
     @IsInt()
     @Min(1)
     readonly count: number = 1;
-    @IsEnum(JokeType)
-    readonly type: JokeType;
+    readonly type: string;
 }

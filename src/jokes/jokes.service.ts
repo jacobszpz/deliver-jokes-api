@@ -9,9 +9,11 @@ export class JokesService {
     constructor(
         @InjectRepository(Joke)
         private jokesRepository: Repository<Joke>,
+        @InjectRepository(JokeType)
+        private jokeTypesRepository: Repository<JokeType>,
     ) {}
 
-    async randomByType(type: JokeType, count: number) : Promise<Joke[]> {
+    async randomByType(type: string, count: number) : Promise<Joke[]> {
         return this.jokesRepository
             .createQueryBuilder("joke")
             .select(['joke.setup', 'joke.punchline', 'type.name'])
@@ -23,5 +25,13 @@ export class JokesService {
             .orderBy("RAND()")
             .limit(count)
             .getMany();
+    }
+
+    async typeExists(type: string) : Promise<boolean> {
+        return this.jokeTypesRepository.exist({ where: { name: type } });
+    }
+
+    async listTypes() : Promise<JokeType[]> {
+        return this.jokeTypesRepository.find();
     }
 }
