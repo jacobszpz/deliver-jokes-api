@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Joke } from './joke/joke';
 import { JokeType } from './joke-type/joke-type';
+import { CreateJokeDto } from './dto/create-joke.dto';
 
 @Injectable()
 export class JokesService {
@@ -33,5 +34,20 @@ export class JokesService {
 
     async listTypes() : Promise<JokeType[]> {
         return this.jokeTypesRepository.find();
+    }
+
+    async create(createJokeDto: CreateJokeDto): Promise<boolean> {
+        const jokeType = await this.jokeTypesRepository.findOneBy({ id: createJokeDto.type });
+        if (jokeType != null) {
+            const joke = new Joke();
+            joke.setup = createJokeDto.setup;
+            joke.punchline = createJokeDto.punchline;
+            joke.type = jokeType;
+
+            await this.jokesRepository.save(joke);
+            return true;
+        }
+
+        return false;
     }
 }
