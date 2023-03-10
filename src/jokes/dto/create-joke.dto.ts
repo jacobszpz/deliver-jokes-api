@@ -5,6 +5,6 @@ export class CreateJokeDto {
   readonly setup: string;
   @IsNotEmpty()
   readonly punchline: string;
-  @IsInt()
-  readonly type: number;
+  @IsNotEmpty()
+  readonly type: string;
 }

@@ -37,17 +37,20 @@ export class JokesService {
     }
 
     async create(createJokeDto: CreateJokeDto): Promise<boolean> {
-        const jokeType = await this.jokeTypesRepository.findOneBy({ id: createJokeDto.type });
-        if (jokeType != null) {
-            const joke = new Joke();
-            joke.setup = createJokeDto.setup;
-            joke.punchline = createJokeDto.punchline;
-            joke.type = jokeType;
+        let jokeType = await this.jokeTypesRepository.findOneBy({ name: createJokeDto.type });
 
-            await this.jokesRepository.save(joke);
-            return true;
+        if (jokeType == null) {
+            const newJokeType = new JokeType();
+            newJokeType.name = createJokeDto.type;
+            jokeType = await this.jokeTypesRepository.save(newJokeType);
         }
 
-        return false;
+        const joke = new Joke();
+        joke.setup = createJokeDto.setup;
+        joke.punchline = createJokeDto.punchline;
+        joke.type = jokeType;
+
+        await this.jokesRepository.save(joke);
+        return true;
     }
 }
